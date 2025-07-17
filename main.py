@@ -3,10 +3,8 @@ import nltk
 from nltk import NaiveBayesClassifier
 from joblib import load
 
-# Download NLTK resources if not already downloaded
 nltk.download('names', quiet=True)
 
-# Feature extraction function
 def extract_gender_features(name):
     name = name.lower()
     features = {
@@ -24,130 +22,158 @@ def extract_gender_features(name):
     }
     return features
 
-# Load the trained Naive Bayes classifier
 bayes = load('gender_prediction.joblib')
 
-# --- Custom CSS for Pro Dark Theme & Styling ---
-custom_css = """
+cyberpunk_css = """
 <style>
-    /* Background & font */
+    /* Background */
     .main {
-        background-color: #121212;
-        color: #E0E0E0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: radial-gradient(circle at top left, #0f0c29, #302b63, #24243e);
+        color: #f0f0f0;
+        font-family: 'Orbitron', 'Courier New', Courier, monospace;
+        user-select: none;
     }
 
-    /* Center container */
+    /* Container */
     .block-container {
         max-width: 600px;
-        margin: auto;
-        padding: 3rem 2rem 4rem 2rem;
+        margin: 3rem auto;
+        padding: 2.5rem 3rem 3rem 3rem;
         border-radius: 15px;
-        background: #1e1e1e;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+        background: rgba(10, 10, 30, 0.85);
+        box-shadow:
+            0 0 15px #ff0080,
+            0 0 30px #00fff7,
+            0 0 45px #ff0080,
+            0 0 60px #00fff7;
+        border: 2px solid #ff0080;
+        text-align: center;
     }
 
-    /* Title styling */
+    /* Title */
     h1 {
         font-weight: 900 !important;
-        font-size: 3.2rem !important;
-        letter-spacing: 1.5px;
-        color: #00bfa5;
-        text-align: center;
-        margin-bottom: 0.2rem;
+        font-size: 3.5rem !important;
+        letter-spacing: 0.15em;
+        color: #ff0080;
+        text-shadow:
+            0 0 10px #ff0080,
+            0 0 20px #ff0080,
+            0 0 30px #ff0080;
+        margin-bottom: 0.3rem;
+        font-family: 'Orbitron', monospace;
     }
 
-    /* Subtitle styling */
+    /* Subtitle */
     .subtitle {
-        font-weight: 400;
-        font-size: 1.2rem;
-        color: #bbb;
-        text-align: center;
-        margin-bottom: 2.5rem;
         font-style: italic;
+        font-weight: 600;
+        font-size: 1.2rem;
+        color: #00fff7;
+        text-shadow: 0 0 5px #00fff7;
+        margin-bottom: 3rem;
     }
 
     /* Input box */
     .stTextInput > div > div > input {
-        background: #2b2b2b !important;
-        border: none !important;
+        background: #1a1a40 !important;
+        border: 2px solid #ff0080 !important;
         border-radius: 8px !important;
-        padding: 0.8rem 1rem !important;
-        font-size: 1.1rem !important;
-        color: #e0e0e0 !important;
-        box-shadow: inset 0 0 6px #00bfa5aa;
-        transition: box-shadow 0.3s ease;
+        padding: 1rem 1.2rem !important;
+        font-size: 1.2rem !important;
+        color: #00fff7 !important;
+        box-shadow:
+            inset 0 0 6px #ff0080,
+            0 0 10px #00fff7;
+        font-family: 'Orbitron', monospace !important;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
     .stTextInput > div > div > input:focus {
-        box-shadow: 0 0 8px #00bfa5ff !important;
+        border-color: #00fff7 !important;
+        box-shadow:
+            inset 0 0 10px #00fff7,
+            0 0 20px #ff0080;
         outline: none !important;
     }
 
-    /* Button styling */
+    /* Button */
     div.stButton > button {
-        background: linear-gradient(90deg, #00bfa5 0%, #00ffc8 100%);
+        background: linear-gradient(90deg, #ff0080, #00fff7);
         color: #121212;
-        font-weight: 700;
-        font-size: 1.1rem;
-        padding: 0.7rem 2.2rem;
+        font-weight: 900;
+        font-size: 1.3rem;
+        padding: 1rem 2.5rem;
         border-radius: 50px;
         border: none;
-        box-shadow: 0 4px 15px rgba(0, 191, 165, 0.7);
+        box-shadow:
+            0 0 10px #ff0080,
+            0 0 20px #00fff7;
         cursor: pointer;
-        transition: background 0.3s ease, transform 0.15s ease;
+        transition: filter 0.3s ease, transform 0.15s ease;
+        font-family: 'Orbitron', monospace;
+        margin: 1.8rem auto 3rem auto;
         display: block;
-        margin: 1.5rem auto 3rem auto;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
     }
     div.stButton > button:hover {
-        background: linear-gradient(90deg, #00ffc8 0%, #00bfa5 100%);
-        transform: scale(1.05);
+        filter: brightness(1.3);
+        transform: scale(1.07);
     }
 
-    /* Success message */
+    /* Success Message */
     .stAlertSuccess {
-        border-radius: 10px;
-        background-color: #004d40cc;
-        color: #a7ffeb;
-        font-weight: 600;
-        font-size: 1.25rem;
-        padding: 1rem 1.2rem;
-        box-shadow: 0 0 12px #00bfa5cc;
+        border-radius: 12px;
+        background-color: #00fff722;
+        color: #00fff7;
+        font-weight: 700;
+        font-size: 1.3rem;
+        padding: 1rem 1.5rem;
+        box-shadow:
+            0 0 12px #00fff7,
+            0 0 25px #00fff7cc;
         max-width: 100%;
-        text-align: center;
         margin: auto;
+        font-family: 'Orbitron', monospace;
+        text-align: center;
+        letter-spacing: 0.05em;
     }
 
-    /* Warning message */
+    /* Warning Message */
     .stAlertWarning {
-        border-radius: 10px;
-        background-color: #bf3604cc;
-        color: #ffd180;
-        font-weight: 600;
-        font-size: 1.15rem;
-        padding: 1rem 1.2rem;
+        border-radius: 12px;
+        background-color: #ff008022;
+        color: #ff0080;
+        font-weight: 700;
+        font-size: 1.25rem;
+        padding: 1rem 1.5rem;
         max-width: 100%;
-        text-align: center;
         margin: auto;
+        text-align: center;
+        font-family: 'Orbitron', monospace;
+        letter-spacing: 0.05em;
     }
 </style>
+
+<!-- Import Orbitron font -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
 """
 
-# Streamlit app
 def main():
-    st.markdown(custom_css, unsafe_allow_html=True)
+    st.markdown(cyberpunk_css, unsafe_allow_html=True)
 
-    st.markdown("<h1>Gender Prediction App</h1>", unsafe_allow_html=True)
-    st.markdown('<p class="subtitle">Enter any name and let the AI guess the gender!</p>', unsafe_allow_html=True)
+    st.markdown("<h1>GENDER PREDICTION</h1>", unsafe_allow_html=True)
+    st.markdown('<p class="subtitle">Enter a name, and the AI will reveal its gender.</p>', unsafe_allow_html=True)
 
-    input_name = st.text_input('Name', placeholder='Type a name here...')
+    name = st.text_input('Name', placeholder='e.g. Neo, Trinity...')
 
     if st.button('Predict'):
-        if input_name.strip():
-            features = extract_gender_features(input_name)
-            predicted_gender = bayes.classify(features)
-            st.success(f'The predicted gender for "{input_name}" is: {predicted_gender}')
+        if name.strip():
+            features = extract_gender_features(name)
+            gender = bayes.classify(features)
+            st.success(f'⚡ The predicted gender for "{name}" is: {gender} ⚡')
         else:
-            st.warning('Please enter a name.')
+            st.warning('⚠️ Please enter a name to proceed.')
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
