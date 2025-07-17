@@ -21,185 +21,134 @@ def extract_gender_features(name):
     }
     return features
 
+# Load your pre-trained Naive Bayes classifier here
 bayes = load('gender_prediction.joblib')
 
-hello_kitty_css = """
+# Kawaii pink CSS styling with Hello Kitty image fix
+kawaii_css = """
 <style>
-    /* Background with subtle pastel pattern */
     .main {
-        background: #fff0f6 url("https://i.pinimg.com/originals/33/f3/d8/33f3d8eae6aebbf44692c9ae6a1bda4c.png") repeat;
-        background-size: 150px 150px;
+        background: #fff0f6;
         font-family: 'Comic Sans MS', cursive, sans-serif;
-        color: #d6336c;
-        user-select: none;
+        color: #4a2c40;
         min-height: 100vh;
-        padding-top: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem 1rem;
     }
-
-    /* Container */
-    .block-container {
-        max-width: 600px;
-        margin: 3rem auto 5rem auto;
+    .card {
+        background: white;
+        border-radius: 24px;
         padding: 3rem 3rem 4rem 3rem;
-        border-radius: 25px;
-        background: #fff;
-        box-shadow: 0 8px 32px rgba(214, 51, 108, 0.25);
+        box-shadow: 0 6px 25px rgba(255, 92, 141, 0.3);
+        max-width: 600px;
+        width: 100%;
+        border: 3px solid #ff5c8d;
         text-align: center;
-        border: 4px solid #ff5c8d;
-        position: relative;
     }
-
-    /* Header image */
-    .header-img {
-        width: 120px;
-        margin: 0 auto 1.8rem auto;
-        display: block;
-        animation: bounce 2.5s infinite ease-in-out;
+    .card img {
+        width: 100px;
+        margin-bottom: 1.5rem;
     }
-
-    /* Title */
     h1 {
-        font-size: 3.8rem !important;
-        font-weight: 900 !important;
-        margin-bottom: 0.2rem;
+        font-weight: 900;
+        font-size: 3rem;
+        letter-spacing: 0.1em;
         color: #ff5c8d;
-        letter-spacing: 0.12em;
+        margin-bottom: 0.5rem;
         text-shadow: 1px 1px 6px #ffbbcc;
     }
-
-    /* Subtitle */
     .subtitle {
         font-style: italic;
-        font-size: 1.4rem;
-        margin-bottom: 2.5rem;
         color: #d6336c;
         font-weight: 600;
+        margin-bottom: 2rem;
+        font-size: 1.2rem;
     }
-
-    /* Input box */
-    .stTextInput > div > div > input {
-        background: #fff0f6 !important;
-        border: 3px solid #ff5c8d !important;
-        border-radius: 25px !important;
-        padding: 1.2rem 1.5rem !important;
-        font-size: 1.3rem !important;
-        color: #d6336c !important;
+    input[type="text"] {
+        width: 100%;
+        padding: 1rem 1.3rem;
+        font-size: 1.2rem;
+        border-radius: 20px;
+        border: 2px solid #ff5c8d;
         box-shadow: 0 5px 15px #ffb6c1;
-        font-family: 'Comic Sans MS', cursive, sans-serif !important;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        outline: none;
         transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        margin-bottom: 2rem;
+        color: #d6336c;
+        background: #fff0f6;
     }
-    .stTextInput > div > div > input:focus {
-        border-color: #ff82ab !important;
-        outline: none !important;
+    input[type="text"]:focus {
+        border-color: #ff82ab;
         box-shadow: 0 0 18px #ff82ab;
         transform: scale(1.02);
     }
-
-    /* Button */
-    div.stButton > button {
+    button {
         background: linear-gradient(45deg, #ff5c8d, #ff82ab);
         color: white;
-        font-weight: 800;
-        font-size: 1.35rem;
-        padding: 1.15rem 3.2rem;
+        font-weight: 700;
+        font-size: 1.3rem;
+        padding: 1rem 3rem;
         border-radius: 40px;
         border: none;
         box-shadow: 0 8px 20px #ff82abcc;
         cursor: pointer;
         transition: background 0.4s ease, transform 0.2s ease;
         font-family: 'Comic Sans MS', cursive, sans-serif;
-        margin: 2.2rem auto 3rem auto;
-        display: block;
-        letter-spacing: 0.1em;
         text-transform: uppercase;
+        letter-spacing: 0.1em;
     }
-    div.stButton > button:hover {
+    button:hover {
         background: linear-gradient(45deg, #ff82ab, #ff5c8d);
-        transform: scale(1.08);
+        transform: scale(1.05);
         box-shadow: 0 12px 30px #ff5c8dcc;
     }
-
-    /* Success message */
     .stAlertSuccess {
-        border-radius: 25px;
+        border-radius: 20px;
         background-color: #ffd6e8;
         color: #d6336c;
         font-weight: 700;
-        font-size: 1.4rem;
-        padding: 1.2rem 2.2rem;
+        font-size: 1.3rem;
+        padding: 1rem 2rem;
         box-shadow: 0 0 28px #ff82abbb;
-        max-width: 100%;
-        margin: auto;
-        text-align: center;
+        margin-top: 1.5rem;
         font-family: 'Comic Sans MS', cursive, sans-serif;
     }
-
-    /* Warning message */
     .stAlertWarning {
-        border-radius: 25px;
+        border-radius: 20px;
         background-color: #ffe3ec;
         color: #d6336c;
         font-weight: 600;
-        font-size: 1.2rem;
-        padding: 1.2rem 2.2rem;
-        max-width: 100%;
-        margin: auto;
-        text-align: center;
+        font-size: 1.1rem;
+        padding: 1rem 2rem;
+        margin-top: 1.5rem;
         font-family: 'Comic Sans MS', cursive, sans-serif;
-    }
-
-    /* Footer kitty icon */
-    .footer-kitty {
-        position: fixed;
-        bottom: 1rem;
-        right: 1rem;
-        width: 100px;
-        opacity: 0.7;
-        animation: float 5s ease-in-out infinite;
-        filter: drop-shadow(0 0 4px #ff5c8d);
-        cursor: default;
-        user-select: none;
-        z-index: 9999;
-    }
-
-    /* Animations */
-    @keyframes bounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-12px); }
-    }
-    @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-15px); }
     }
 </style>
 """
 
 def main():
-    st.markdown(hello_kitty_css, unsafe_allow_html=True)
+    st.markdown(kawaii_css, unsafe_allow_html=True)
 
-    # Hello Kitty header image from official or free source
     st.markdown("""
-    <img class="header-img" src="https://upload.wikimedia.org/wikipedia/en/1/12/Hello_kitty.svg" alt="Hello Kitty" />
+        <div class="card">
+            <img src="https://upload.wikimedia.org/wikipedia/en/1/12/Hello_kitty.svg" alt="Hello Kitty" />
+            <h1>Hello Kitty Gender Predictor</h1>
+            <p class="subtitle">Type a name and the magic will tell you the gender! 🎀</p>
+        </div>
     """, unsafe_allow_html=True)
 
-    st.markdown('<h1>Hello Kitty Gender Predictor</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="subtitle">Type a name and the magic will tell you the gender! 🎀</p>', unsafe_allow_html=True)
+    name = st.text_input("Name", "")
 
-    name = st.text_input('Name', placeholder='e.g. Mimi, Taro...')
-
-    if st.button('Predict'):
-        if name.strip():
+    if st.button("Predict"):
+        if name.strip() == "":
+            st.warning("Please enter a name, nya!")
+        else:
             features = extract_gender_features(name)
             gender = bayes.classify(features)
-            st.success(f'🎉 The predicted gender for "{name}" is: {gender} 🎉')
-        else:
-            st.warning('Please enter a name, nya!')
+            st.success(f"🎉 The predicted gender for \"{name}\" is: {gender} 🎉")
 
-    # Footer Hello Kitty image
-    st.markdown("""
-    <img class="footer-kitty" src="https://upload.wikimedia.org/wikipedia/en/1/12/Hello_kitty.svg" alt="Hello Kitty" />
-    """, unsafe_allow_html=True)
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
