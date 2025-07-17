@@ -1,6 +1,5 @@
 import streamlit as st
 import nltk
-from nltk import NaiveBayesClassifier
 from joblib import load
 
 nltk.download('names', quiet=True)
@@ -26,41 +25,52 @@ bayes = load('gender_prediction.joblib')
 
 hello_kitty_css = """
 <style>
-    /* Background & font */
+    /* Background with subtle pastel pattern */
     .main {
-        background: #fff0f6;
+        background: #fff0f6 url("https://i.pinimg.com/originals/33/f3/d8/33f3d8eae6aebbf44692c9ae6a1bda4c.png") repeat;
+        background-size: 150px 150px;
         font-family: 'Comic Sans MS', cursive, sans-serif;
         color: #d6336c;
         user-select: none;
+        min-height: 100vh;
+        padding-top: 2rem;
     }
 
     /* Container */
     .block-container {
-        max-width: 550px;
-        margin: 3rem auto;
+        max-width: 600px;
+        margin: 3rem auto 5rem auto;
         padding: 3rem 3rem 4rem 3rem;
         border-radius: 25px;
         background: #fff;
-        box-shadow: 0 8px 24px rgba(214, 51, 108, 0.3);
+        box-shadow: 0 8px 32px rgba(214, 51, 108, 0.25);
         text-align: center;
-        border: 3px solid #ff5c8d;
+        border: 4px solid #ff5c8d;
+        position: relative;
+    }
+
+    /* Header image */
+    .header-img {
+        width: 120px;
+        margin: 0 auto 1.8rem auto;
+        display: block;
+        animation: bounce 2.5s infinite ease-in-out;
     }
 
     /* Title */
     h1 {
-        font-size: 3.5rem !important;
+        font-size: 3.8rem !important;
         font-weight: 900 !important;
         margin-bottom: 0.2rem;
         color: #ff5c8d;
-        letter-spacing: 0.1em;
-        text-shadow: 1px 1px 4px #ffbbcc;
-        font-family: 'Comic Sans MS', cursive, sans-serif;
+        letter-spacing: 0.12em;
+        text-shadow: 1px 1px 6px #ffbbcc;
     }
 
     /* Subtitle */
     .subtitle {
         font-style: italic;
-        font-size: 1.3rem;
+        font-size: 1.4rem;
         margin-bottom: 2.5rem;
         color: #d6336c;
         font-weight: 600;
@@ -69,51 +79,55 @@ hello_kitty_css = """
     /* Input box */
     .stTextInput > div > div > input {
         background: #fff0f6 !important;
-        border: 2px solid #ff5c8d !important;
-        border-radius: 20px !important;
-        padding: 1rem 1.2rem !important;
-        font-size: 1.2rem !important;
+        border: 3px solid #ff5c8d !important;
+        border-radius: 25px !important;
+        padding: 1.2rem 1.5rem !important;
+        font-size: 1.3rem !important;
         color: #d6336c !important;
-        box-shadow: 0 4px 8px #ffb6c1;
+        box-shadow: 0 5px 15px #ffb6c1;
         font-family: 'Comic Sans MS', cursive, sans-serif !important;
-        transition: border-color 0.3s ease;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
     .stTextInput > div > div > input:focus {
         border-color: #ff82ab !important;
         outline: none !important;
-        box-shadow: 0 0 10px #ff82ab;
+        box-shadow: 0 0 18px #ff82ab;
+        transform: scale(1.02);
     }
 
     /* Button */
     div.stButton > button {
-        background: #ff5c8d;
+        background: linear-gradient(45deg, #ff5c8d, #ff82ab);
         color: white;
-        font-weight: 700;
-        font-size: 1.3rem;
-        padding: 1rem 3rem;
-        border-radius: 30px;
+        font-weight: 800;
+        font-size: 1.35rem;
+        padding: 1.15rem 3.2rem;
+        border-radius: 40px;
         border: none;
-        box-shadow: 0 6px 15px #ff82ab;
+        box-shadow: 0 8px 20px #ff82abcc;
         cursor: pointer;
-        transition: background 0.3s ease, transform 0.15s ease;
+        transition: background 0.4s ease, transform 0.2s ease;
         font-family: 'Comic Sans MS', cursive, sans-serif;
-        margin: 2rem auto 3rem auto;
+        margin: 2.2rem auto 3rem auto;
         display: block;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
     }
     div.stButton > button:hover {
-        background: #ff82ab;
-        transform: scale(1.05);
+        background: linear-gradient(45deg, #ff82ab, #ff5c8d);
+        transform: scale(1.08);
+        box-shadow: 0 12px 30px #ff5c8dcc;
     }
 
     /* Success message */
     .stAlertSuccess {
-        border-radius: 20px;
+        border-radius: 25px;
         background-color: #ffd6e8;
         color: #d6336c;
         font-weight: 700;
-        font-size: 1.3rem;
-        padding: 1rem 2rem;
-        box-shadow: 0 0 20px #ff82ab99;
+        font-size: 1.4rem;
+        padding: 1.2rem 2.2rem;
+        box-shadow: 0 0 28px #ff82abbb;
         max-width: 100%;
         margin: auto;
         text-align: center;
@@ -122,40 +136,51 @@ hello_kitty_css = """
 
     /* Warning message */
     .stAlertWarning {
-        border-radius: 20px;
+        border-radius: 25px;
         background-color: #ffe3ec;
         color: #d6336c;
         font-weight: 600;
-        font-size: 1.15rem;
-        padding: 1rem 2rem;
+        font-size: 1.2rem;
+        padding: 1.2rem 2.2rem;
         max-width: 100%;
         margin: auto;
         text-align: center;
         font-family: 'Comic Sans MS', cursive, sans-serif;
     }
 
-    /* Hello Kitty icon (simple svg) */
-    .hello-kitty-icon {
-        margin-bottom: 1rem;
-        width: 80px;
-        height: 80px;
-        filter: drop-shadow(0 0 2px #ff5c8d);
+    /* Footer kitty icon */
+    .footer-kitty {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        width: 100px;
+        opacity: 0.7;
+        animation: float 5s ease-in-out infinite;
+        filter: drop-shadow(0 0 4px #ff5c8d);
+        cursor: default;
+        user-select: none;
+        z-index: 9999;
+    }
+
+    /* Animations */
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-12px); }
+    }
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-15px); }
     }
 </style>
 """
 
-hello_kitty_svg = """
-<svg class="hello-kitty-icon" viewBox="0 0 512 512" fill="#ff5c8d" xmlns="http://www.w3.org/2000/svg">
-  <path d="M256 48c-73 0-134 59-134 132s61 132 134 132 134-59 134-132-61-132-134-132zm0 240c-59 0-106-48-106-108s47-108 106-108 106 48 106 108-47 108-106 108z"/>
-  <circle cx="170" cy="220" r="15"/>
-  <circle cx="342" cy="220" r="15"/>
-  <path d="M256 286c-22 0-40 18-40 40h80c0-22-18-40-40-40z"/>
-</svg>
-"""
-
 def main():
     st.markdown(hello_kitty_css, unsafe_allow_html=True)
-    st.markdown(hello_kitty_svg, unsafe_allow_html=True)
+
+    # Hello Kitty header image from official or free source
+    st.markdown("""
+    <img class="header-img" src="https://upload.wikimedia.org/wikipedia/en/1/12/Hello_kitty.svg" alt="Hello Kitty" />
+    """, unsafe_allow_html=True)
 
     st.markdown('<h1>Hello Kitty Gender Predictor</h1>', unsafe_allow_html=True)
     st.markdown('<p class="subtitle">Type a name and the magic will tell you the gender! 🎀</p>', unsafe_allow_html=True)
@@ -169,6 +194,12 @@ def main():
             st.success(f'🎉 The predicted gender for "{name}" is: {gender} 🎉')
         else:
             st.warning('Please enter a name, nya!')
+
+    # Footer Hello Kitty image
+    st.markdown("""
+    <img class="footer-kitty" src="https://upload.wikimedia.org/wikipedia/en/1/12/Hello_kitty.svg" alt="Hello Kitty" />
+    """, unsafe_allow_html=True)
+
 
 if __name__ == '__main__':
     main()
