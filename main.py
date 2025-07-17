@@ -24,156 +24,151 @@ def extract_gender_features(name):
 
 bayes = load('gender_prediction.joblib')
 
-cyberpunk_css = """
+hello_kitty_css = """
 <style>
-    /* Background */
+    /* Background & font */
     .main {
-        background: radial-gradient(circle at top left, #0f0c29, #302b63, #24243e);
-        color: #f0f0f0;
-        font-family: 'Orbitron', 'Courier New', Courier, monospace;
+        background: #fff0f6;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        color: #d6336c;
         user-select: none;
     }
 
     /* Container */
     .block-container {
-        max-width: 600px;
+        max-width: 550px;
         margin: 3rem auto;
-        padding: 2.5rem 3rem 3rem 3rem;
-        border-radius: 15px;
-        background: rgba(10, 10, 30, 0.85);
-        box-shadow:
-            0 0 15px #ff0080,
-            0 0 30px #00fff7,
-            0 0 45px #ff0080,
-            0 0 60px #00fff7;
-        border: 2px solid #ff0080;
+        padding: 3rem 3rem 4rem 3rem;
+        border-radius: 25px;
+        background: #fff;
+        box-shadow: 0 8px 24px rgba(214, 51, 108, 0.3);
         text-align: center;
+        border: 3px solid #ff5c8d;
     }
 
     /* Title */
     h1 {
-        font-weight: 900 !important;
         font-size: 3.5rem !important;
-        letter-spacing: 0.15em;
-        color: #ff0080;
-        text-shadow:
-            0 0 10px #ff0080,
-            0 0 20px #ff0080,
-            0 0 30px #ff0080;
-        margin-bottom: 0.3rem;
-        font-family: 'Orbitron', monospace;
+        font-weight: 900 !important;
+        margin-bottom: 0.2rem;
+        color: #ff5c8d;
+        letter-spacing: 0.1em;
+        text-shadow: 1px 1px 4px #ffbbcc;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
     }
 
     /* Subtitle */
     .subtitle {
         font-style: italic;
+        font-size: 1.3rem;
+        margin-bottom: 2.5rem;
+        color: #d6336c;
         font-weight: 600;
-        font-size: 1.2rem;
-        color: #00fff7;
-        text-shadow: 0 0 5px #00fff7;
-        margin-bottom: 3rem;
     }
 
     /* Input box */
     .stTextInput > div > div > input {
-        background: #1a1a40 !important;
-        border: 2px solid #ff0080 !important;
-        border-radius: 8px !important;
+        background: #fff0f6 !important;
+        border: 2px solid #ff5c8d !important;
+        border-radius: 20px !important;
         padding: 1rem 1.2rem !important;
         font-size: 1.2rem !important;
-        color: #00fff7 !important;
-        box-shadow:
-            inset 0 0 6px #ff0080,
-            0 0 10px #00fff7;
-        font-family: 'Orbitron', monospace !important;
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        color: #d6336c !important;
+        box-shadow: 0 4px 8px #ffb6c1;
+        font-family: 'Comic Sans MS', cursive, sans-serif !important;
+        transition: border-color 0.3s ease;
     }
     .stTextInput > div > div > input:focus {
-        border-color: #00fff7 !important;
-        box-shadow:
-            inset 0 0 10px #00fff7,
-            0 0 20px #ff0080;
+        border-color: #ff82ab !important;
         outline: none !important;
+        box-shadow: 0 0 10px #ff82ab;
     }
 
     /* Button */
     div.stButton > button {
-        background: linear-gradient(90deg, #ff0080, #00fff7);
-        color: #121212;
-        font-weight: 900;
+        background: #ff5c8d;
+        color: white;
+        font-weight: 700;
         font-size: 1.3rem;
-        padding: 1rem 2.5rem;
-        border-radius: 50px;
+        padding: 1rem 3rem;
+        border-radius: 30px;
         border: none;
-        box-shadow:
-            0 0 10px #ff0080,
-            0 0 20px #00fff7;
+        box-shadow: 0 6px 15px #ff82ab;
         cursor: pointer;
-        transition: filter 0.3s ease, transform 0.15s ease;
-        font-family: 'Orbitron', monospace;
-        margin: 1.8rem auto 3rem auto;
+        transition: background 0.3s ease, transform 0.15s ease;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        margin: 2rem auto 3rem auto;
         display: block;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
     }
     div.stButton > button:hover {
-        filter: brightness(1.3);
-        transform: scale(1.07);
+        background: #ff82ab;
+        transform: scale(1.05);
     }
 
-    /* Success Message */
+    /* Success message */
     .stAlertSuccess {
-        border-radius: 12px;
-        background-color: #00fff722;
-        color: #00fff7;
+        border-radius: 20px;
+        background-color: #ffd6e8;
+        color: #d6336c;
         font-weight: 700;
         font-size: 1.3rem;
-        padding: 1rem 1.5rem;
-        box-shadow:
-            0 0 12px #00fff7,
-            0 0 25px #00fff7cc;
+        padding: 1rem 2rem;
+        box-shadow: 0 0 20px #ff82ab99;
         max-width: 100%;
         margin: auto;
-        font-family: 'Orbitron', monospace;
         text-align: center;
-        letter-spacing: 0.05em;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
     }
 
-    /* Warning Message */
+    /* Warning message */
     .stAlertWarning {
-        border-radius: 12px;
-        background-color: #ff008022;
-        color: #ff0080;
-        font-weight: 700;
-        font-size: 1.25rem;
-        padding: 1rem 1.5rem;
+        border-radius: 20px;
+        background-color: #ffe3ec;
+        color: #d6336c;
+        font-weight: 600;
+        font-size: 1.15rem;
+        padding: 1rem 2rem;
         max-width: 100%;
         margin: auto;
         text-align: center;
-        font-family: 'Orbitron', monospace;
-        letter-spacing: 0.05em;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    /* Hello Kitty icon (simple svg) */
+    .hello-kitty-icon {
+        margin-bottom: 1rem;
+        width: 80px;
+        height: 80px;
+        filter: drop-shadow(0 0 2px #ff5c8d);
     }
 </style>
+"""
 
-<!-- Import Orbitron font -->
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+hello_kitty_svg = """
+<svg class="hello-kitty-icon" viewBox="0 0 512 512" fill="#ff5c8d" xmlns="http://www.w3.org/2000/svg">
+  <path d="M256 48c-73 0-134 59-134 132s61 132 134 132 134-59 134-132-61-132-134-132zm0 240c-59 0-106-48-106-108s47-108 106-108 106 48 106 108-47 108-106 108z"/>
+  <circle cx="170" cy="220" r="15"/>
+  <circle cx="342" cy="220" r="15"/>
+  <path d="M256 286c-22 0-40 18-40 40h80c0-22-18-40-40-40z"/>
+</svg>
 """
 
 def main():
-    st.markdown(cyberpunk_css, unsafe_allow_html=True)
+    st.markdown(hello_kitty_css, unsafe_allow_html=True)
+    st.markdown(hello_kitty_svg, unsafe_allow_html=True)
 
-    st.markdown("<h1>GENDER PREDICTION</h1>", unsafe_allow_html=True)
-    st.markdown('<p class="subtitle">Enter a name, and the AI will reveal its gender.</p>', unsafe_allow_html=True)
+    st.markdown('<h1>Hello Kitty Gender Predictor</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="subtitle">Type a name and the magic will tell you the gender! 🎀</p>', unsafe_allow_html=True)
 
-    name = st.text_input('Name', placeholder='e.g. Neo, Trinity...')
+    name = st.text_input('Name', placeholder='e.g. Mimi, Taro...')
 
     if st.button('Predict'):
         if name.strip():
             features = extract_gender_features(name)
             gender = bayes.classify(features)
-            st.success(f'⚡ The predicted gender for "{name}" is: {gender} ⚡')
+            st.success(f'🎉 The predicted gender for "{name}" is: {gender} 🎉')
         else:
-            st.warning('⚠️ Please enter a name to proceed.')
+            st.warning('Please enter a name, nya!')
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
