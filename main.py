@@ -23,7 +23,6 @@ def extract_gender_features(name):
 
 bayes = load('gender_prediction.joblib')
 
-# Cyberpunk neon CSS with kawkaw pulse glow effect
 cyberpunk_css = """
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
@@ -56,6 +55,7 @@ cyberpunk_css = """
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        padding: 2rem 1rem;
     }
     .card {
         background: #12002b;
@@ -71,12 +71,6 @@ cyberpunk_css = """
         text-align: center;
         position: relative;
         z-index: 1;
-    }
-    .card img {
-        width: 120px;
-        filter: drop-shadow(0 0 6px #ff3c78) drop-shadow(0 0 20px #ff6bbd);
-        margin-bottom: 1.2rem;
-        animation: neonPulse 3s ease-in-out infinite;
     }
     h1 {
         font-weight: 900;
@@ -175,8 +169,7 @@ def main():
     st.markdown(
         """
         <div class="card">
-            <img src="https://upload.wikimedia.org/wikipedia/en/1/12/Hello_kitty.svg" alt="Hello Kitty" />
-            <h1>Hello Kitty Gender Predictor</h1>
+            <h1>Gender Predictor</h1>
             <p class="subtitle">TYPE A NAME — GET YOUR KAWKAW GENDER! ⚡</p>
         </div>
         """, unsafe_allow_html=True
